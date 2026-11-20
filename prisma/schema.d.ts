@@ -23,9 +23,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'1c6cad5ff3a79f3d90a7c1b38e9e5b2db29241aadb2a7bf77ee82279ccf576eb'>;
+  StorageHashBase<'52450be37362643df46ed4565610e7520084c78064e6f4c54365e3f9adb1b143'>;
 export type ExecutionHash =
-  ExecutionHashBase<'abbc470441e42d344451380e91dac93a2311f0a991cc1b56b35161e5bfc478a4'>;
+  ExecutionHashBase<'43cf2409d46b998fc3e7d2d01d6516be97ece14a190ec94f15c9625c693ab9ff'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -328,6 +328,7 @@ export namespace Models {
     npm: FieldOutputTypes['public']['Order']['npm'];
     orderCode: FieldOutputTypes['public']['Order']['orderCode'];
     paymentProof: FieldOutputTypes['public']['Order']['paymentProof'];
+    snapToken: FieldOutputTypes['public']['Order']['snapToken'];
     status: FieldOutputTypes['public']['Order']['status'];
     totalAmount: FieldOutputTypes['public']['Order']['totalAmount'];
     updatedAt: FieldOutputTypes['public']['Order']['updatedAt'];
@@ -362,6 +363,18 @@ export namespace Models {
     orderItems: public_OrderItem[];
     readonly [RelationKeys]?: 'orderItems';
   };
+  export type public_User = {
+    createdAt: FieldOutputTypes['public']['User']['createdAt'];
+    email: FieldOutputTypes['public']['User']['email'];
+    id: FieldOutputTypes['public']['User']['id'];
+    kelas: FieldOutputTypes['public']['User']['kelas'];
+    name: FieldOutputTypes['public']['User']['name'];
+    npm: FieldOutputTypes['public']['User']['npm'];
+    password: FieldOutputTypes['public']['User']['password'];
+    updatedAt: FieldOutputTypes['public']['User']['updatedAt'];
+    whatsapp: FieldOutputTypes['public']['User']['whatsapp'];
+    readonly [RelationKeys]?: never;
+  };
 }
 
 export declare const models: {
@@ -370,6 +383,7 @@ export declare const models: {
     Order: Models.public_Order;
     OrderItem: Models.public_OrderItem;
     Product: Models.public_Product;
+    User: Models.public_User;
   };
 };
 
@@ -464,7 +478,7 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly default: {
                     readonly kind: 'literal';
-                    readonly value: DefaultLiteralValue<'pg/text@1', 'COD_KAMPUS'>;
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'Depok'>;
                   };
                   readonly many: false;
                 };
@@ -503,6 +517,12 @@ type ContractBase = Omit<
                   readonly many: false;
                 };
                 readonly paymentProof: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly snapToken: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
@@ -728,6 +748,78 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
+            readonly User: {
+              columns: {
+                readonly createdAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly email: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                  readonly many: false;
+                };
+                readonly kelas: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly name: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly npm: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly password: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly updatedAt: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 3 };
+                  readonly many: false;
+                };
+                readonly whatsapp: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [
+                { readonly columns: readonly ['email'] },
+                { readonly columns: readonly ['npm'] },
+              ];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
           };
         };
       };
@@ -743,6 +835,7 @@ type ContractBase = Omit<
     readonly Order: { readonly namespace: 'public' & NamespaceId; readonly model: 'Order' };
     readonly OrderItem: { readonly namespace: 'public' & NamespaceId; readonly model: 'OrderItem' };
     readonly Product: { readonly namespace: 'public' & NamespaceId; readonly model: 'Product' };
+    readonly User: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
   };
   readonly domain: {
     readonly namespaces: {
@@ -839,6 +932,10 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly snapToken: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly status: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -886,6 +983,7 @@ type ContractBase = Omit<
                 readonly npm: { readonly column: 'npm' };
                 readonly orderCode: { readonly column: 'orderCode' };
                 readonly paymentProof: { readonly column: 'paymentProof' };
+                readonly snapToken: { readonly column: 'snapToken' };
                 readonly status: { readonly column: 'status' };
                 readonly totalAmount: { readonly column: 'totalAmount' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
@@ -1050,6 +1148,70 @@ type ContractBase = Omit<
               };
             };
           };
+          readonly User: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly email: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly kelas: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly name: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly npm: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly password: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly updatedAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly typeParams: { readonly precision: 3 };
+                };
+              };
+              readonly whatsapp: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'User';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly email: { readonly column: 'email' };
+                readonly id: { readonly column: 'id' };
+                readonly kelas: { readonly column: 'kelas' };
+                readonly name: { readonly column: 'name' };
+                readonly npm: { readonly column: 'npm' };
+                readonly password: { readonly column: 'password' };
+                readonly updatedAt: { readonly column: 'updatedAt' };
+                readonly whatsapp: { readonly column: 'whatsapp' };
+              };
+            };
+          };
         };
       };
     };
@@ -1170,6 +1332,35 @@ type ContractBase = Omit<
           };
           readonly ref: {
             readonly entry: 'Product';
+            readonly field: 'updatedAt';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: {
+            readonly id: 'timestampNow';
+            readonly kind: 'generator';
+            readonly params: { readonly precision: 3 };
+          };
+          readonly ref: {
+            readonly entry: 'User';
+            readonly field: 'createdAt';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: {
+            readonly id: 'timestampNow';
+            readonly kind: 'generator';
+            readonly params: { readonly precision: 3 };
+          };
+          readonly onUpdate: {
+            readonly id: 'timestampNow';
+            readonly kind: 'generator';
+            readonly params: { readonly precision: 3 };
+          };
+          readonly ref: {
+            readonly entry: 'User';
             readonly field: 'updatedAt';
             readonly namespace: 'public';
           };
