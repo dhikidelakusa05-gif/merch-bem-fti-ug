@@ -27,8 +27,8 @@ async function CartContent() {
 
 export default function KeranjangPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <Suspense fallback={<div className="h-16 bg-slate-900" />}>
+    <div className="min-h-screen bg-[#F3F9FD] text-slate-900">
+      <Suspense fallback={<div className="h-16 bg-[#061A35]" />}>
         <Navbar />
       </Suspense>
       <Suspense

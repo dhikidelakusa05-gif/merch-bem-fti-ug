@@ -39,7 +39,7 @@ export default function ProductGridWithCheckout({
 
   if (products.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
+      <div className="rounded-2xl border border-dashed border-sky-200 bg-white p-12 text-center">
         <p className="text-sm font-medium text-slate-600">
           Belum ada produk merchandise yang ditampilkan.
         </p>
@@ -78,13 +78,13 @@ export default function ProductGridWithCheckout({
   return (
     <>
       {toastProduct && (
-        <div className="fixed right-5 bottom-5 z-50 flex items-center gap-3 rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-xs text-white shadow-xl">
+        <div className="fixed right-5 bottom-5 z-50 flex items-center gap-3 rounded-2xl border border-sky-700/50 bg-[#061A35] px-4 py-3 text-xs text-white shadow-xl">
           <span>
             ✓ <strong>{toastProduct}</strong> masuk keranjang
           </span>
           <Link
             href="/keranjang"
-            className="rounded-lg bg-orange-500 px-3 py-1.5 font-bold text-white hover:bg-orange-600"
+            className="rounded-lg bg-linear-to-r from-cyan-300 to-sky-400 px-3 py-1.5 font-extrabold text-slate-950 hover:from-cyan-200 hover:to-sky-300"
           >
             Lihat Keranjang →
           </Link>
@@ -103,10 +103,10 @@ export default function ProductGridWithCheckout({
           return (
             <div
               key={product.id}
-              className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-sky-100 bg-white shadow-sm transition hover:-translate-y-1 hover:border-sky-300 hover:shadow-md hover:shadow-sky-900/5"
             >
               <div>
-                <div className="relative flex h-48 items-center justify-center overflow-hidden bg-linear-to-tr from-slate-100 to-blue-50">
+                <div className="relative flex h-48 items-center justify-center overflow-hidden bg-linear-to-tr from-sky-50 via-cyan-50/70 to-blue-100/70">
                   {hasImage ? (
                     <img
                       src={product.imageUrl!}
@@ -114,7 +114,7 @@ export default function ProductGridWithCheckout({
                       className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                     />
                   ) : (
-                    <span className="rounded-2xl bg-white/90 px-4 py-2 text-xs font-bold tracking-wider text-blue-800 uppercase shadow-sm">
+                    <span className="rounded-2xl bg-white/95 px-4 py-2 text-xs font-bold tracking-wider text-[#0F4C81] uppercase shadow-sm">
                       {product.category}
                     </span>
                   )}
@@ -122,7 +122,7 @@ export default function ProductGridWithCheckout({
                   <span
                     className={`absolute top-3 right-3 rounded-full px-2.5 py-1 text-[11px] font-semibold shadow-xs ${
                       product.isPreOrder
-                        ? 'bg-amber-100 text-amber-800'
+                        ? 'bg-sky-100 text-[#0B2D52]'
                         : 'bg-emerald-100 text-emerald-800'
                     }`}
                   >
@@ -131,7 +131,7 @@ export default function ProductGridWithCheckout({
                 </div>
 
                 <div className="p-5">
-                  <h3 className="line-clamp-2 text-base font-bold text-slate-900 group-hover:text-orange-600">
+                  <h3 className="line-clamp-2 text-base font-bold text-[#071E3D] group-hover:text-sky-600">
                     {product.name}
                   </h3>
                   <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-500">
@@ -152,8 +152,8 @@ export default function ProductGridWithCheckout({
                           }
                           className={`rounded-md px-2 py-0.5 text-[10px] font-bold transition ${
                             activeSize === sz
-                              ? 'bg-slate-900 text-white'
-                              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                              ? 'bg-[#0B2D52] text-white'
+                              : 'bg-sky-50 text-slate-600 hover:bg-sky-100'
                           }`}
                         >
                           {sz}
@@ -164,11 +164,11 @@ export default function ProductGridWithCheckout({
                 </div>
               </div>
 
-              <div className="border-t border-slate-100 px-5 py-4">
+              <div className="border-t border-sky-50 px-5 py-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs text-slate-400">Harga</p>
-                    <p className="text-base font-extrabold text-slate-900">
+                    <p className="text-base font-extrabold text-[#071E3D]">
                       {formatRupiah(product.price)}
                     </p>
                   </div>
@@ -181,7 +181,7 @@ export default function ProductGridWithCheckout({
                   type="button"
                   disabled={isOutOfStock}
                   onClick={() => handleAdd(product)}
-                  className="mt-4 w-full rounded-xl bg-slate-900 py-2.5 text-xs font-bold text-white transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:bg-slate-300"
+                  className="mt-4 w-full rounded-xl bg-linear-to-r from-[#0B2D52] to-[#0F4C81] py-2.5 text-xs font-bold text-white transition hover:from-sky-500 hover:to-cyan-500 hover:text-slate-950 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-300 disabled:text-white"
                 >
                   {isOutOfStock ? 'Stok Habis' : '+ Tambah ke Keranjang'}
                 </button>

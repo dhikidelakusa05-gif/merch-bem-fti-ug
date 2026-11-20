@@ -18,7 +18,7 @@ function getStatusBadge(status: string) {
     case 'LUNAS':
       return 'bg-emerald-100 text-emerald-800';
     case 'SELESAI':
-      return 'bg-blue-100 text-blue-800';
+      return 'bg-sky-100 text-[#0B2D52]';
     case 'BATAL':
       return 'bg-red-100 text-red-700';
     default:
@@ -47,7 +47,6 @@ async function OrderHistoryContent() {
 
   const productMap = new Map(allProducts.map((p) => [p.id, p.name]));
 
-  // Jika login, filter berdasarkan NPM mahasiswa; jika belum login, tampilkan 5 transaksi terbaru
   const filteredOrders = [...allOrders]
     .filter((o) => (user ? o.npm === user.npm : true))
     .sort((a, b) => b.id - a.id)
@@ -66,19 +65,19 @@ async function OrderHistoryContent() {
     <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+          <h1 className="text-2xl font-extrabold tracking-tight text-[#071E3D]">
             Pesanan Saya
           </h1>
           <p className="mt-1 text-xs text-slate-500">
             {user
               ? `Menampilkan riwayat pesanan untuk ${user.name} (${user.npm})`
-              : 'Masuk dengan akun mahasiswa untuk melihat seluruh riwayat pesanan pribadi Anda.'}
+              : 'Masuk dengan NPM untuk melihat seluruh riwayat pesanan pribadi Anda.'}
           </p>
         </div>
         {!user && (
           <Link
             href="/login"
-            className="rounded-xl bg-orange-500 px-4 py-2 text-xs font-bold text-white hover:bg-orange-600"
+            className="rounded-xl bg-linear-to-r from-[#0B2D52] to-sky-600 px-4 py-2 text-xs font-bold text-white hover:from-[#071E3D] hover:to-sky-500"
           >
             Masuk Akun
           </Link>
@@ -86,13 +85,13 @@ async function OrderHistoryContent() {
       </div>
 
       {filteredOrders.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
-          <p className="text-sm font-bold text-slate-700">
+        <div className="rounded-2xl border border-dashed border-sky-200 bg-white p-12 text-center">
+          <p className="text-sm font-bold text-[#071E3D]">
             Belum ada riwayat pesanan.
           </p>
           <Link
             href="/#katalog"
-            className="mt-4 inline-block rounded-xl bg-slate-900 px-5 py-2.5 text-xs font-semibold text-white hover:bg-orange-500"
+            className="mt-4 inline-block rounded-xl bg-linear-to-r from-[#0B2D52] to-sky-600 px-5 py-2.5 text-xs font-semibold text-white hover:from-[#071E3D] hover:to-sky-500"
           >
             Mulai Belanja Merchandise
           </Link>
@@ -102,14 +101,14 @@ async function OrderHistoryContent() {
           {filteredOrders.map((order) => (
             <div
               key={order.id}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs"
+              className="rounded-2xl border border-sky-100 bg-white p-6 shadow-xs"
             >
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-sky-50 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm font-extrabold text-slate-900">
+                  <span className="font-mono text-sm font-extrabold text-[#071E3D]">
                     #{order.orderCode}
                   </span>
-                  <span className="rounded-md bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">
+                  <span className="rounded-md bg-sky-50 px-2.5 py-0.5 text-[11px] font-bold text-[#0F4C81]">
                     Region {order.deliveryMethod}
                   </span>
                 </div>
@@ -128,18 +127,18 @@ async function OrderHistoryContent() {
                     <span>
                       {item.productName} ({item.size}) × {item.quantity}
                     </span>
-                    <span className="font-semibold text-slate-900">
+                    <span className="font-semibold text-[#071E3D]">
                       {formatRupiah(item.price * item.quantity)}
                     </span>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+              <div className="mt-4 flex items-center justify-between border-t border-sky-50 pt-3">
                 <span className="text-xs text-slate-500">
                   Pemesan: {order.customerName} ({order.npm})
                 </span>
-                <span className="text-sm font-extrabold text-orange-600">
+                <span className="text-sm font-extrabold text-[#0F4C81]">
                   Total: {formatRupiah(order.totalAmount)}
                 </span>
               </div>
@@ -153,8 +152,8 @@ async function OrderHistoryContent() {
 
 export default function PesananPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <Suspense fallback={<div className="h-16 bg-slate-900" />}>
+    <div className="min-h-screen bg-[#F3F9FD] text-slate-900">
+      <Suspense fallback={<div className="h-16 bg-[#061A35]" />}>
         <Navbar />
       </Suspense>
       <Suspense

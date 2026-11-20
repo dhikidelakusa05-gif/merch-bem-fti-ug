@@ -5,12 +5,12 @@ async function main() {
   console.log('🌱 Memulai proses seeding database BEM FTI UG...');
 
   // 1. Buat akun Admin pertama (password di-hash dengan bcrypt)
-  const hashedPassword = await bcrypt.hash('adminbemfti123', 10);
+  const bismittajirmelintir = await bcrypt.hash('adminbemfti123', 10);
 
   const admin = await db.orm.public.Admin.upsert({
     create: {
       username: 'admin',
-      password: hashedPassword,
+      password: bismittajirmelintir,
       name: 'Admin BEM FTI UG',
     },
     update: {},
