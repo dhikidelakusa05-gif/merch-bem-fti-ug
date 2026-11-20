@@ -96,6 +96,9 @@ export default function ProductGridWithCheckout({
           const isOutOfStock = !product.isPreOrder && product.stock <= 0;
           const isApparel = product.category.toLowerCase().includes('apparel');
           const activeSize = selectedSizes[product.id] || 'L';
+          const hasImage =
+            Boolean(product.imageUrl) &&
+            product.imageUrl !== '/images/placeholder.jpg';
 
           return (
             <div
@@ -103,13 +106,21 @@ export default function ProductGridWithCheckout({
               className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
             >
               <div>
-                <div className="relative flex h-48 items-center justify-center bg-linear-to-tr from-slate-100 to-blue-50 p-6">
-                  <span className="rounded-2xl bg-white/90 px-4 py-2 text-xs font-bold tracking-wider text-blue-800 uppercase shadow-sm">
-                    {product.category}
-                  </span>
+                <div className="relative flex h-48 items-center justify-center overflow-hidden bg-linear-to-tr from-slate-100 to-blue-50">
+                  {hasImage ? (
+                    <img
+                      src={product.imageUrl!}
+                      alt={product.name}
+                      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <span className="rounded-2xl bg-white/90 px-4 py-2 text-xs font-bold tracking-wider text-blue-800 uppercase shadow-sm">
+                      {product.category}
+                    </span>
+                  )}
 
                   <span
-                    className={`absolute top-3 right-3 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                    className={`absolute top-3 right-3 rounded-full px-2.5 py-1 text-[11px] font-semibold shadow-xs ${
                       product.isPreOrder
                         ? 'bg-amber-100 text-amber-800'
                         : 'bg-emerald-100 text-emerald-800'
