@@ -17,8 +17,12 @@ export default function StudentRegisterPage() {
         />
 
         <Link href="/" className="relative flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-cyan-300 to-sky-400 font-extrabold text-slate-950 shadow-sm">
-            FTI
+          <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full bg-[#061A35] shadow-sm ring-2 ring-cyan-300/45">
+            <img
+              src="/logo-bem-fti.jpg"
+              alt="Logo BEM FTI UG"
+              className="h-full w-full object-cover"
+            />
           </div>
           <span className="text-lg font-extrabold tracking-tight">
             MERCH BEM FTI UG

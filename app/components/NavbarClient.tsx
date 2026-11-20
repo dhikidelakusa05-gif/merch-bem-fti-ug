@@ -19,10 +19,14 @@ export default function NavbarClient({ user }: { user: SessionUser }) {
   return (
     <header className="sticky top-0 z-40 border-b border-sky-800/40 bg-linear-to-r from-[#061A35] via-[#0B2D52] to-[#0E3B68] text-white shadow-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
-        {/* Brand */}
+        {/* Brand dengan Logo BEM FTI */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-cyan-300 to-sky-500 text-xs font-extrabold text-slate-950 shadow-sm shadow-cyan-400/30">
-            FTI
+          <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-white shadow-sm ring-2 ring-cyan-300/45">
+            <img
+              src="/logo-bem-fti.jpg"
+              alt="Logo BEM FTI UG"
+              className="h-full w-full scale-110 object-cover"
+            />
           </div>
           <div>
             <p className="text-sm font-extrabold tracking-tight text-white">
