@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import { SessionUser } from '../components/NavbarClient';
 import CartPageClient from './CartPageClient';
@@ -15,6 +16,10 @@ async function CartContent() {
     } catch {
       user = null;
     }
+  }
+
+  if (!user) {
+    redirect('/login?reason=cart');
   }
 
   return <CartPageClient user={user} />;

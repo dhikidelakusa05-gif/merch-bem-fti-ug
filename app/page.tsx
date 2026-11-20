@@ -1,9 +1,13 @@
 import { Suspense } from 'react';
+import { cookies } from 'next/headers';
 import { db } from '../prisma/db';
 import Navbar from './components/Navbar';
 import ProductGridWithCheckout from './ProductGridWithCheckout';
 
 async function ProductCatalog() {
+  const cookieStore = await cookies();
+  const isLoggedIn = Boolean(cookieStore.get('user_session')?.value);
+
   const rawProducts = await db.orm.public.Product.where({ isActive: true }).all();
 
   const products = rawProducts.map((p) => ({
@@ -31,7 +35,7 @@ async function ProductCatalog() {
         </div>
       </div>
 
-      <ProductGridWithCheckout products={products} />
+      <ProductGridWithCheckout products={products} isLoggedIn={isLoggedIn} />
     </>
   );
 }

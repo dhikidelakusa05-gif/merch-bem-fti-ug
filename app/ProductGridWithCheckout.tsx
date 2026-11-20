@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from './context/CartContext';
 
 export type CatalogProduct = {
@@ -26,9 +27,12 @@ function formatRupiah(angka: number) {
 
 export default function ProductGridWithCheckout({
   products,
+  isLoggedIn,
 }: {
   products: CatalogProduct[];
+  isLoggedIn: boolean;
 }) {
+  const router = useRouter();
   const { addToCart } = useCart();
   const [selectedSizes, setSelectedSizes] = useState<Record<number, string>>({});
   const [toastProduct, setToastProduct] = useState<string | null>(null);
@@ -47,6 +51,11 @@ export default function ProductGridWithCheckout({
   }
 
   const handleAdd = (product: CatalogProduct) => {
+    if (!isLoggedIn) {
+      router.push('/login?reason=cart');
+      return;
+    }
+
     const isApparel = product.category.toLowerCase().includes('apparel');
     const size = selectedSizes[product.id] || (isApparel ? 'L' : 'Standar');
 

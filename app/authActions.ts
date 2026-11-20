@@ -31,14 +31,14 @@ export async function registerStudent(
   let isSuccess = false;
 
   try {
-    const existingEmail = await db.orm.public.User.where({ email }).first();
-    if (existingEmail) {
-      return { error: 'Email sudah terdaftar. Silakan langsung masuk.' };
-    }
-
     const existingNpm = await db.orm.public.User.where({ npm }).first();
     if (existingNpm) {
-      return { error: 'NPM sudah terdaftar pada akun lain.' };
+      return { error: 'NPM sudah terdaftar. Silakan langsung masuk menggunakan NPM.' };
+    }
+
+    const existingEmail = await db.orm.public.User.where({ email }).first();
+    if (existingEmail) {
+      return { error: 'Email sudah digunakan oleh akun lain.' };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -53,7 +53,7 @@ export async function registerStudent(
     });
 
     const created =
-      user ?? (await db.orm.public.User.where({ email }).first());
+      user ?? (await db.orm.public.User.where({ npm }).first());
 
     if (!created) {
       return { error: 'Gagal membuat akun. Silakan coba lagi.' };
@@ -96,92 +96,57 @@ export async function loginStudent(
   _prevState: AuthActionState,
   formData: FormData
 ): Promise<AuthActionState> {
-  const identifier = String(formData.get('email') || '').trim();
+  const npm = String(formData.get('npm') || '').trim();
   const password = String(formData.get('password') || '');
 
-  if (!identifier || !password) {
-    return { error: 'Email/NPM dan password wajib diisi.' };
+  if (!npm || !password) {
+    return { error: 'NPM dan password wajib diisi.' };
   }
 
-  let targetRedirect: '/' | '/admin' | null = null;
+  let isAuthenticated = false;
 
   try {
-    // 1. Cek apakah akun Admin yang login
-    const admin = await db.orm.public.Admin.where({
-      username: identifier,
-    }).first();
+    const user = await db.orm.public.User.where({ npm }).first();
 
-    if (admin) {
-      const validAdmin = await bcrypt.compare(password, admin.password);
-      if (validAdmin) {
-        const cookieStore = await cookies();
-        cookieStore.set(
-          'admin_session',
-          JSON.stringify({
-            id: admin.id,
-            username: admin.username,
-            name: admin.name,
-          }),
-          {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            path: '/',
-            maxAge: 60 * 60 * 24,
-          }
-        );
-        targetRedirect = '/admin';
-      }
+    if (!user) {
+      return {
+        error: 'NPM tidak ditemukan. Pastikan NPM benar atau daftar akun terlebih dahulu.',
+      };
     }
 
-    // 2. Cek akun Mahasiswa (Email atau NPM)
-    if (!targetRedirect) {
-      const normalizedEmail = identifier.toLowerCase();
-      const userByEmail = await db.orm.public.User.where({
-        email: normalizedEmail,
-      }).first();
-      const user =
-        userByEmail ??
-        (await db.orm.public.User.where({ npm: identifier }).first());
-
-      if (!user) {
-        return { error: 'Akun tidak ditemukan. Silakan daftar terlebih dahulu.' };
-      }
-
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        return { error: 'Password salah.' };
-      }
-
-      const cookieStore = await cookies();
-      cookieStore.set(
-        'user_session',
-        JSON.stringify({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          npm: user.npm,
-          kelas: user.kelas,
-          whatsapp: user.whatsapp,
-        }),
-        {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          path: '/',
-          maxAge: 60 * 60 * 24 * 7,
-        }
-      );
-
-      targetRedirect = '/';
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return { error: 'Password salah.' };
     }
+
+    const cookieStore = await cookies();
+    cookieStore.set(
+      'user_session',
+      JSON.stringify({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        npm: user.npm,
+        kelas: user.kelas,
+        whatsapp: user.whatsapp,
+      }),
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+      }
+    );
+
+    isAuthenticated = true;
   } catch (err) {
     console.error('Login student error:', err);
     return { error: 'Gagal terhubung ke database.' };
   }
 
-  if (targetRedirect) {
-    redirect(targetRedirect);
+  if (isAuthenticated) {
+    redirect('/');
   }
 
   return null;
