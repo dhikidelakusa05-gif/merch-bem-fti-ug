@@ -2,7 +2,7 @@
 
 Platform e-commerce resmi penjualan atribut dan merchandise mahasiswa Fakultas Teknologi Industri (FTI) Universitas Gunadarma.
 
-🌐 **Live Preview:** [merch-bem-fti-ug.vercel.app](https://merch-bem-fti-ug.vercel.app/)
+🚧 **Status:** Pre-Launch (Menunggu konfigurasi Custom Domain)
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router) & React (TypeScript)
@@ -10,13 +10,13 @@ Platform e-commerce resmi penjualan atribut dan merchandise mahasiswa Fakultas T
 - **Database & ORM:** PostgreSQL (Neon) + Prisma ORM
 - **Deployment:** Vercel
 
-## Fitur Aktif (`v1.0.0`)
+## Fitur Selesai
 - Katalog produk dinamis (*Ready Stock* & *Pre-Order*) dengan pemilih ukuran pakaian (`S`–`XXL`).
 - Autentikasi mahasiswa berbasis **NPM** (Login & Register).
 - Keranjang belanja dengan dukungan pengambilan di **4 Region Kampus** (*Depok, Karawaci, Kalimalang, Cengkareng*).
-- Riwayat transaksi mahasiswa (`/pesanan`) & Dashboard Pengurus (`/admin`) untuk manajemen produk serta status pesanan.
+- Riwayat transaksi mahasiswa (`/pesanan`) & Dashboard Pengurus (`/admin`).
 
 ## Roadmap Selanjutnya
-- [ ] **Custom Domain:** Migrasi dari `.vercel.app` ke domain `.my.id` / `.biz.id` / `.id`.
+- [ ] **Custom Domain:** Pembelian & penghubungan domain (`.my.id` / `.biz.id` / `.id`) ke Vercel.
 - [ ] **Hero Widget:** Implementasi tata letak *Bento Grid* 3 kolom untuk etalase kategori & promo.
 - [ ] **Security Hardening:** Signed session cookie (HMAC/JWT) dan verifikasi signature webhook pembayaran.
