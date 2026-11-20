@@ -117,9 +117,6 @@ export default function StudentLoginPage() {
         </Link>
 
         <div className="relative max-w-md space-y-6">
-          <span className="inline-block rounded-full bg-cyan-300/15 px-3 py-1 text-[11px] font-bold tracking-wider text-cyan-200 ring-1 ring-cyan-300/30">
-            AWAL KISAH • 2026/2027
-          </span>
           <blockquote className="text-3xl leading-snug font-bold tracking-tight">
             “Belanja atribut resmi FTI lebih mudah, pembayaran aman, pengambilan
             praktis di 4 region kampus.”
